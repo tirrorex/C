@@ -1,0 +1,30 @@
+= Host information =============================================================
+$> hostname; uname -msr
+e1r1p2.42.fr
+Darwin 14.3.0 x86_64
+
+$> date
+Thu Apr 23 17:57:17 CEST 2015
+
+$> gcc --version
+Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/usr/include/c++/4.2.1
+Apple LLVM version 6.1.0 (clang-602.0.49) (based on LLVM 3.6.0svn)
+Target: x86_64-apple-darwin14.3.0
+Thread model: posix
+
+$> clang --version
+Apple LLVM version 6.1.0 (clang-602.0.49) (based on LLVM 3.6.0svn)
+Target: x86_64-apple-darwin14.3.0
+Thread model: posix
+
+= sort_list ====================================================================
+$> clang -Wextra -Wall -Werror sort_list.c main.c -o user_exe 
+
+= Test 1 ===================================================
+$> ./ukljw38pubcynuev7s7zodo3
+$> diff -U 3 user_output_test1 test1.output | cat -e
+
+Diff OK :D
+Grade: 1
+
+= Final grade: 1 ===============================================================

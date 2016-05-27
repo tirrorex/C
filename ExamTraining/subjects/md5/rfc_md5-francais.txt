@@ -1,0 +1,220 @@
+1.	Résumé
+
+Le présent document décrit l'algorithme de résumé de message MD5. L'algorithme
+prend en entrée un message de taille arbitraire et produit en sortie une
+"empreinte" ou "résumé de message de 128 bits de l'entrée. On fait l'hypothèse
+qu'il est impossible par le calcul de produire deux messages qui ont le même
+résumé de message, ou de produire un message ayant un résumé de message cible
+pré spécifié donné. L'algorithme MD5 est destiné aux applications de signature
+numérique, où un gros fichier doit être "compressé" d'une façon sûre avant
+d'être chiffré avec une clé privée (secrète) sous un système de chiffrement à
+clé publique tel que RSA.
+
+L'algorithme MD5 est conçu pour être assez rapide sur les machines à 32 bits.
+De plus, l'algorithme MD5 n'exige aucun grand tableau de substitution ;
+l'algorithme peut être codé de façon assez compacte.
+
+L'algorithme MD5 est une extension de l'algorithme de résumé de message MD4
+[1], [2]. MD5 est légèrement plus lent que MD4, mais est plus "conservateur"
+dans sa conception. MD5 a été conçu parce qu'il était estimé que MD4 serait
+peut-être adopté plus rapidement par les utilisateurs qu'il n'était justifié
+par les analyses critiques existantes ; comme MD4 a été conçu pour être
+exceptionnellement rapide, il est "à la marge" en termes de risques d'attaque
+réussie d'analyse cryptographique. MD5 sauvegarde un bit, abandonne un peu de
+vitesse au profit d'une meilleure probabilité de sécurité définitive. Il
+incorpore certaines suggestions faites par divers réviseurs, et contient des
+optimisations supplémentaires. L'algorithme MD5 est mis dans le domaine public
+pour être examiné en vue de son adoption possible comme norme.
+
+Pour les applications fondées sur OSI, l'identifiant d'objet de MD5 est
+
+md5 OBJECT IDENTIFIER ::=
+	iso(1) member-body(2) US(840) rsadsi(113549) digestAlgorithm(2) 5}
+
+Dans le type X.509 AlgorithmIdentifier [3], les paramètres pour MD5 devraient
+avoir le type NULL.
+
+2.	Terminologie et notation
+
+Dans le présent document un "mot" est une quantité de 32 bits et un "octet" est
+une quantité de huit bits. Une séquence de bits peut être interprétée da façon
+naturelle comme une séquence d'octets, où chaque groupe consécutif de huit bits
+est interprété comme un octet avec le bit d'ordre élevé (de poids fort) de
+chaque octet figurant en premier. De même, une séquence d'octets peut être
+interprétée comme une séquence de mots de 32 bits, où chaque groupe consécutif
+de quatre octets est interprété comme un mot avec l'octet d'ordre inférieur (de
+moindre poids) est donné en premier.
+
+Soit x_i qui note "x indice i". Si l'indice est une expression, on l'entoure
+d'accolades, comme dans x_{i+1}. De même, on utilise ^ pour indiquer
+l'élévation à la puissance (exponentiation), de sorte que x^i note x à la
+puissance i.
+
+Soit le symbole "+" qui note l'addition de mots (c'est-à-dire, l'addition
+modulo 2^32). Soit X <<< s qui note la valeur de 32 bits obtenue par glissement
+circulaire (rotation) de X à gauche de s positions binaires. Soit not(X) qui
+note le complément de X, au bit près, et soit X v Y qui note l'opération OU au
+bit près de X et Y. Soit X xor Y qui note la combinaison par opérateur OUX de X
+et Y, et soit XY qui note l'opération ET de X et Y.
+
+3.	Description de l'algorithme MD5
+
+On commence par supposer qu'on a en entrée un message de b bits, et qu'on
+souhaite trouver son résumé de message. Ici b est un entier arbitraire non
+négatif ; b peut être zéro, il n'est pas nécessaire qu'il soit un multiple de
+huit, et il peut être arbitrairement grand. On imagine que les bits du message
+sont écrits comme suit :
+
+m_0 m_1 ... m_{b-1}
+
+Les cinq étapes qui suivent sont effectuées pour calculer le résumé de message
+du message.
+
+3.1	Étape 1. Ajout des bits de bourrage
+
+Le message est "bourré" (étendu) de telle sorte que sa longueur (en bits) soit
+congruente à 448, modulo 512. C'est à dire que le message est étendu de telle
+sorte qu'il soit à 64 bits près un multiple d'une longueur de 512 bits. Le
+bourrage est toujours effectué, même si la longueur du message est déjà
+congruente à 448, modulo 512.
+
+Le bourrage est effectué comme suit : un seul bit "1" est ajouté au message,
+puis des bits "0" sont ajoutés de telle sorte que la longueur en bits du
+message bourré devienne congruente à 448, modulo 512. En tout, au moins un bit
+et au plus 512 bits sont ajoutés.
+
+3.2	Étape 2. Ajout de la longueur
+
+Une représentation sur 64 bits de b (la longueur du message avant l'ajout des
+bits de bourrage) est ajoutée au résultat de l'étape précédente. Dans le cas
+peu vraisemblable où b serait supérieur à 2^64, seuls les 64 bits de moindre
+poids de b sont utilisés. (Ces bits sont ajoutés comme deux mots de 32 bits et
+il sont ajoutés avec le mot de moindre poids en premier conformément aux
+conventions précédentes.)
+
+À ce point, le message résultant (après bourrage de bits et avec b) a une
+longueur qui est un exact multiple de 512 bits. Autrement dit, ce message a une
+longueur qui est un exact multiple de 16 mots (de 32 bits). Soit M[0 ... N-1]
+qui note les mots du message résultant, où N est un multiple de 16.
+
+3.3	Étape 3. Initialiser la mémoire tampon MD
+
+Une mémoire tampon de quatre mots (A,B,C,D) est utilisée pour calculer le
+résumé de message. Ici, chacun de A, B, C, D est un registre de 32 bits. Ces
+registres sont initialisés aux valeurs suivantes en hexadécimal, les octets de
+moindre poids en premier) :
+
+mot A : 01 23 45 67
+mot B : 89 ab cd ef
+mot C : fe dc ba 98
+mot D : 76 54 32 10
+
+3.4	Étape 4. Traitement du message en blocs de 16 mots
+
+On définit d'abord quatre fonctions auxiliaires qui prennent chacune en entrée
+ces mots de 32 bits et produisent en sortie un mot de 32 bits.
+
+F(X,Y,Z) = XY v not(X) Z
+G(X,Y,Z) = XZ v Y not(Z)
+H(X,Y,Z) = X xor Y xor Z
+I(X,Y,Z) = Y xor (X v not(Z))
+
+Dans chaque position binaire F agit comme un conditionnel : si X alors Y
+autrement Z. La fonction F pourrait avoir été définie en utilisant + à la place
+de v car XY et not(X)Z n'auront jamais de 1 dans la même position binaire.) Il
+est intéressant de noter que si les bits de X, Y, et Z sont indépendants et non
+biaisés, chaque bit de F(X,Y,Z) sera alors indépendant et non biaisé.
+
+Les fonctions G, H, et I sont similaires à la fonction F, en ce qu'elles
+agissent en "parallèle au bit près" pour produire leur résultat à partir des
+bits de X, Y, et Z, de telle sorte que si les bits correspondants de X, Y et Z
+sont indépendants et non biaisés, chaque bit de G(X,Y,Z), H(X,Y,Z) et I(X,Y,Z)
+sera alors indépendant et non biaisé. Noter que la fonction H est la fonction
+"oux" ou "de parité" au bit près de ses entrées.
+
+Cette étape utilise un tableau de 64 éléments T[1 ... 64] construit à partir de
+la fonction sinus. Soit T[i] qui note le ième élément du tableau, qui est égal
+à la partie entière de 4 294 967 296 fois abs(sin(i)), où i est en radians. Les
+éléments du tableau sont donnés dans l'appendice.
+
+Faire ce qui suit :
+
+/* Traiter chaque bloc de 16 mots. */
+Pour i = 0 à N/16-1 faire
+
+/* Copie le bloc i dans X. */
+Pour j = 0 à 15 faire
+Régler X[j] à M[i*16+j].
+Fin /* de la boucle sur j */
+
+/* Sauvegarder A comme AA, B comme BB, C comme CC et D comme DD. */
+AA = A
+BB = B
+CC = C
+DD = D
+
+/* Tour 1. */
+/* Soit [abcd k s i] qui note l'opération a = b + ((a + F(b,c,d) + X[k] + T[i])
+ * <<< s). */
+/* Faire les 16 opérations suivantes. */
+[ABCD 0 7 1] [DABC 1 12 2] [CDAB 2 17 3] [BCDA 3 22 4]
+[ABCD 4 7 5] [DABC 5 12 6] [CDAB 6 17 7] [BCDA 7 22 8]
+[ABCD 8 7 9] [DABC 9 12 10] [CDAB 10 17 11] [BCDA 11 22 12]
+[ABCD 12 7 13] [DABC 13 12 14] [CDAB 14 17 15] [BCDA 15 22 16]
+
+/* Tour 2. */
+/* Soit [abcd k s i] qui note l'opération a = b + ((a + G(b,c,d) + X[k] + T[i])
+ * <<< s). */
+/* Faire les 16 opérations suivantes. */
+[ABCD 1 5 17] [DABC 6 9 18] [CDAB 11 14 19] [BCDA 0 20 20]
+[ABCD 5 5 21] [DABC 10 9 22] [CDAB 15 14 23] [BCDA 4 20 24]
+[ABCD 9 5 25] [DABC 14 9 26] [CDAB 3 14 27] [BCDA 8 20 28]
+[ABCD 13 5 29] [DABC 2 9 30] [CDAB 7 14 31] [BCDA 12 20 32]
+
+/* Tour 3. */
+/* Soit [abcd k s i] qui note l'opération a = b + ((a + H(b,c,d) + X[k] + T[i])
+ * <<< s). */
+/* Faire les 16 opérations suivantes. */
+[ABCD 5 4 33] [DABC 8 11 34] [CDAB 11 16 35] [BCDA 14 23 36]
+[ABCD 1 4 37] [DABC 4 11 38] [CDAB 7 16 39] [BCDA 10 23 40]
+[ABCD 13 4 41] [DABC 0 11 42] [CDAB 3 16 43] [BCDA 6 23 44]
+[ABCD 9 4 45] [DABC 12 11 46] [CDAB 15 16 47] [BCDA 2 23 48]
+
+/* Tour 4. */
+/* Soit [abcd k s i] qui note l'opération a = b + ((a + I(b,c,d) + X[k] + T[i])
+ * <<< s). */
+/* Faire les 16 opérations suivantes. */
+[ABCD 0 6 49] [DABC 7 10 50] [CDAB 14 15 51] [BCDA 5 21 52]
+[ABCD 12 6 53] [DABC 3 10 54] [CDAB 10 15 55] [BCDA 1 21 56]
+[ABCD 8 6 57] [DABC 15 10 58] [CDAB 6 15 59] [BCDA 13 21 60]
+[ABCD 4 6 61] [DABC 11 10 62] [CDAB 2 15 63] [BCDA 9 21 64]
+
+/* Effectuer ensuite les additions suivantes. (Elles incrémentent chacun des
+ * quatre registres de la valeur qu'il avait avant le commencement de ce bloc.)
+ * */
+A = A + AA
+B = B + BB
+C = C + CC
+D = D + DD
+Fin /* de la boucle sur i */
+
+3.5	Étape 5. Résultat
+
+Le résumé de message produit en sortie est A, B, C, D. C'est à dire qu'on
+commence par l'octet de moindre poids de A, et qu'on termine par l'octet de
+poids fort de D.
+
+Cela achève la description de MD5. Une mise en œuvre de référence en C est
+donnée dans l'appendice.
+
+4.	Résumé
+
+L'algorithme de résumé de message MD5 est simple à mettre en œuvre, et produit
+une "empreinte" ou résumé de message d'un message de longueur arbitraire. On a
+fait l'hypothèse que la difficulté d'arriver à ce que deux messages aient le
+même résumé de message est de l'ordre de 2^64 opérations, et que la difficulté
+d'arriver à ce qu'un message ait un résumé de message donné est de l'ordre de
+2^128 opérations. L'algorithme MD5 a été étudié avec soin à la recherche de
+faiblesses. Il est cependant un algorithme relativement nouveau et d'autres
+analyses de sa sécurité sont bien sûr justifiées, comme c'est le cas avec toute
+nouvelle proposition de cette sorte.

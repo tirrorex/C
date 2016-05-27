@@ -1,0 +1,11 @@
+$> ./md5 "" | cat -e
+d41d8cd98f00b204e9800998ecf8427e$
+$> ./md5 "ceci n'est pas une pipe" | cat -e
+abec1071c807ebfec3045ce68ce0df47$
+$> ./md5 "jamais de la vie je ne ferai ca dans mon sandwich ..." | cat -e
+94f1547ed3f035b2baf450bc8e6516bb$
+$> ./md5 "le bocal est beau" | cat -e
+69b5af91d872e9b03cd76eb6d6a5bef6$
+$> ./md5 "le bocal est" "fort" | cat -e
+$
+$>

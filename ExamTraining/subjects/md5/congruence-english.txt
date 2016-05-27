@@ -1,0 +1,3 @@
+"In modular arithmetic, two relative integers are congruent modulo n if they
+have the same remainder in the Euclidean division by n. They can also be called
+congruent modulo n if their difference is a multiple of n"

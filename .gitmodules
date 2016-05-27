@@ -1,0 +1,30 @@
+[submodule "Modules/Printf/libft"]
+	path = Modules/Printf/libft
+	url = https://github.com/tirrorex/libft.git
+[submodule "Modules/FdF/libft"]
+	path = Modules/FdF/libft
+	url = https://github.com/tirrorex/libft.git
+[submodule "Modules/Fract'ol/libft"]
+	path = Modules/Fract'ol/libft
+	url = https://github.com/tirrorex/libft.git
+[submodule "Modules/Ft_ls/libft"]
+	path = Modules/Ft_ls/libft
+	url = https://github.com/tirrorex/libft.git
+[submodule "Modules/Ft_select/libft"]
+	path = Modules/Ft_select/libft
+	url = https://github.com/tirrorex/libft.git
+[submodule "Modules/Ft_sh1/libft"]
+	path = Modules/Ft_sh1/libft
+	url = https://github.com/tirrorex/libft.git
+[submodule "Modules/Ft_sh2/libft"]
+	path = Modules/Ft_sh2/libft
+	url = https://github.com/tirrorex/libft.git
+[submodule "Modules/Push_swap/libft"]
+	path = Modules/Push_swap/libft
+	url = https://github.com/tirrorex/libft.git
+[submodule "Modules/Wolf3d/libft"]
+	path = Modules/Wolf3d/libft
+	url = https://github.com/tirrorex/libft.git
+[submodule "Modules/ls/libft"]
+	path = Modules/ls/libft
+	url = https://github.com/tirrorex/libft.git

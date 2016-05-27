@@ -1,0 +1,60 @@
+= Host information =============================================================
+$> hostname; uname -msr
+e2r9p13.42.fr
+Darwin 14.3.0 x86_64
+
+$> date
+Thu Apr 23 18:42:00 CEST 2015
+
+$> gcc --version
+Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/usr/include/c++/4.2.1
+Apple LLVM version 6.1.0 (clang-602.0.49) (based on LLVM 3.6.0svn)
+Target: x86_64-apple-darwin14.3.0
+Thread model: posix
+
+$> clang --version
+Apple LLVM version 6.1.0 (clang-602.0.49) (based on LLVM 3.6.0svn)
+Target: x86_64-apple-darwin14.3.0
+Thread model: posix
+
+= infin_add ====================================================================
+$> clang -Wextra -Wall -Werror infin_add.c -o user_exe 
+
+= Test 1 ===================================================
+$> ./cgt2e76d586qwxqijwyvjuga "0" "0"
+$> diff -U 3 user_output_test1 test1.output | cat -e
+
+Diff OK :D
+= Test 2 ===================================================
+$> ./1rrmtgk6kn3hbe0h98lf4jgw "1" "0"
+$> diff -U 3 user_output_test2 test2.output | cat -e
+
+Diff OK :D
+= Test 3 ===================================================
+$> ./jsm87lvbvnhxgob71ocf3ryu "0" "-2"
+$> diff -U 3 user_output_test3 test3.output | cat -e
+
+Diff OK :D
+= Test 4 ===================================================
+$> ./96e0ijzqs5k84lxt9k7ld8b0 "21" "42"
+$> diff -U 3 user_output_test4 test4.output | cat -e
+
+Diff OK :D
+= Test 5 ===================================================
+$> ./4jc0p1c22lbg6bcb3m2fzz75 "4894398524132130" "5906754239"
+$> diff -U 3 user_output_test5 test5.output | cat -e
+
+Diff OK :D
+= Test 6 ===================================================
+$> ./d6bq8990rxlkr94dvi86j37o "-4495409524185401471245" "1320806358203958045104122132132146"
+$> diff -U 3 user_output_test6 test6.output | cat -e
+
+Diff OK :D
+= Test 7 ===================================================
+$> ./b1eu6o4p6b7v6cokq2vhyhg3 "-395450348096354305805" "-65849062158917658342568439612590230455643092"
+$> diff -U 3 user_output_test7 test7.output | cat -e
+
+Diff OK :D
+Grade: 1
+
+= Final grade: 1 ===============================================================

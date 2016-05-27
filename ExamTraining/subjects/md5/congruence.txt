@@ -1,0 +1,3 @@
+"En arithmétique modulaire, deux entiers relatifs sont congrus modulo n s'ils
+ont le même reste dans la division euclidienne par n. On peut aussi dire qu'ils
+sont congrus modulo n si leur différence est un multiple de n."

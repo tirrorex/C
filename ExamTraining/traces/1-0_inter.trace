@@ -1,0 +1,50 @@
+= Host information =============================================================
+$> hostname; uname -msr
+e1r4p7.42.fr
+Darwin 14.3.0 x86_64
+
+$> date
+Thu Apr 23 16:34:15 CEST 2015
+
+$> gcc --version
+Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/usr/include/c++/4.2.1
+Apple LLVM version 6.1.0 (clang-602.0.49) (based on LLVM 3.6.0svn)
+Target: x86_64-apple-darwin14.3.0
+Thread model: posix
+
+$> clang --version
+Apple LLVM version 6.1.0 (clang-602.0.49) (based on LLVM 3.6.0svn)
+Target: x86_64-apple-darwin14.3.0
+Thread model: posix
+
+= inter ========================================================================
+$> clang -Wextra -Wall -Werror inter.c -o user_exe 
+
+= Test 1 ===================================================
+$> ./6eochnczv73pk1i1nhe80314 "padinton" "paqefwtdjetyiytjneytjoeyjnejeyj"
+$> diff -U 3 user_output_test1 test1.output | cat -e
+
+Diff OK :D
+= Test 2 ===================================================
+$> ./y6wqndllmz9wnsdxvjfc9a8t "ddf6vewg64f" "gtwthgdwthdwfteewhrtag6h4ffdhsd"
+$> diff -U 3 user_output_test2 test2.output | cat -e
+
+Diff OK :D
+= Test 3 ===================================================
+$> ./n5l9sgc9oe6mok1xf1czbk61 "rien" "cette phrase ne cache rien"
+$> diff -U 3 user_output_test3 test3.output | cat -e
+
+Diff OK :D
+= Test 4 ===================================================
+$> ./cndekdeh1x7z3u3zipiis1v0 "" ""
+$> diff -U 3 user_output_test4 test4.output | cat -e
+
+Diff OK :D
+= Test 5 ===================================================
+$> ./tuxqf56pk5klxcww08tluze6 "asdfqwerzxxcv123454" "1234gfds6543fghj"
+$> diff -U 3 user_output_test5 test5.output | cat -e
+
+Diff OK :D
+Grade: 1
+
+= Final grade: 1 ===============================================================
