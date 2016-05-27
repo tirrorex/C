@@ -1,0 +1,1 @@
+norminette --CheckForbiddenSourceHeader *.c

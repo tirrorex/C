@@ -1,0 +1,7 @@
+Credentials cache: API:10180
+        Principal: tnoah@42.FR
+
+  Issued                Expires               Principal
+Jul 29 15:00:27 2014  Jul 30 01:00:28 2014  krbtgt/42.FR@42.FR
+Jul 29 15:00:31 2014  Jul 30 01:00:28 2014  nfs/zfs-student-1.42.fr@42.FR
+Jul 29 15:00:32 2014  Jul 30 01:00:28 2014  nfs/zfs-student-4.42.fr@42.FR
