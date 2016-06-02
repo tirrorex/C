@@ -11,3 +11,5 @@ clean:
 
 fclean: clean
 	rm -rf Colleen
+
+re: fclean all

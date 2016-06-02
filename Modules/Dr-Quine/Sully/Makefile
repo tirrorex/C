@@ -11,3 +11,5 @@ clean:
 
 fclean: clean
 	rm -rf Sully
+
+re: fclean all

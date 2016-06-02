@@ -11,3 +11,5 @@ clean:
 
 fclean: clean
 	rm -rf Grace
+
+re: fclean all
